@@ -191,7 +191,7 @@ Le projet intègre une configuration complète pour le déploiement sur une mach
 
 Ce projet est le fruit du travail de l'équipe **NeuroNova** dans le cadre du Projet Intégré 4DS10 à **ESPRIT School of Engineering** :
 
-- **Dhia Romdhane** — *Lead Data & AI Architecture, Pricing Engine, RAG & Data Quality* ([GitHub](https://github.com/dhia10))
+- **Dhia Romdhane** — *Lead Data & AI Architecture, Pricing Engine, RAG & Data Quality* ([GitHub](https://github.com/dhia10) • [LinkedIn](https://www.linkedin.com/in/dhia-romdhane-ds/))
 - **Nour Rajhi** — *Scraping Infrastructure & Legal Agent Lead*
 - **Yosri Awedi** — *Frontend Coordination & AI Engine Integration*
 - **Oumaima Nacef** — *Market Analytics & Data Modeling*
