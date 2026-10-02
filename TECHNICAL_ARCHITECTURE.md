@@ -5,14 +5,14 @@ EstateMind is a premium AI-powered real estate platform designed for the Tunisia
 
 ### 1.5 User Journey Scenario
 A typical user journey on EstateMind involves several interconnected agents:
-1. **Discovery**: A user searches for "Appartement à La Marsa budget 400k". The **VIAGRA Orchestrator** detects the intent, calls the **Recommender Agent** for listings and the **Geo Advisor** for neighborhood insights.
+1. **Discovery**: A user searches for "Appartement à La Marsa budget 400k". The **GATEWAY Orchestrator** detects the intent, calls the **Recommender Agent** for listings and the **Geo Advisor** for neighborhood insights.
 2. **Analysis**: The user selects a listing. The **Investment Scorer** calculates the yield and ROI, while **Gemini** generates a "Buy/Hold/Avoid" report.
 3. **Visualization**: The user wants to see how a villa would look on a specific terrain. They upload a photo. The **Villa 3D Service** generates a 2D render via **Stable Diffusion** and then a 3D interactive model via **Tripo3D**.
 4. **Finalization**: The user asks about legal fees. The **Legal Advisor** provides a precise response based on Tunisian law.
 
 ## 2. Technology Stack
 - **Frontend**: Next.js 14+, Tailwind CSS, Lucide Icons, Framer Motion, `model-viewer` (3D).
-- **Orchestrator (VIAGRA)**: FastAPI (Python), Httpx, Redis (Caching), MongoDB Atlas.
+- **Orchestrator (GATEWAY)**: FastAPI (Python), Httpx, Redis (Caching), MongoDB Atlas.
 - **AI Agents**:
     - **Price Predictor**: ML regression model + Heuristics.
     - **Investment Scorer**: ROI calculation + Gemini 2.0 Flash analysis.
@@ -26,20 +26,20 @@ A typical user journey on EstateMind involves several interconnected agents:
 ```mermaid
 graph TD
     User((User)) --> NextJS[Next.js Frontend]
-    NextJS --> VIAGRA[VIAGRA Orchestrator :8000]
+    NextJS --> GATEWAY[GATEWAY Orchestrator :8000]
     
     subgraph "Orchestration Layer"
-        VIAGRA --> Redis[(Redis Cache)]
-        VIAGRA --> MongoDB[(MongoDB Atlas)]
+        GATEWAY --> Redis[(Redis Cache)]
+        GATEWAY --> MongoDB[(MongoDB Atlas)]
     end
     
     subgraph "AI Agent Layer"
-        VIAGRA --> RecAgent[Recommender Agent]
-        VIAGRA --> PriceAgent[Price Predictor]
-        VIAGRA --> InvestAgent[Investment Scorer]
-        VIAGRA --> LegalAgent[Legal Advisor]
-        VIAGRA --> DevisAgent[Devis Agent]
-        VIAGRA --> Villa3D[Villa 3D Service :8056]
+        GATEWAY --> RecAgent[Recommender Agent]
+        GATEWAY --> PriceAgent[Price Predictor]
+        GATEWAY --> InvestAgent[Investment Scorer]
+        GATEWAY --> LegalAgent[Legal Advisor]
+        GATEWAY --> DevisAgent[Devis Agent]
+        GATEWAY --> Villa3D[Villa 3D Service :8056]
     end
     
     subgraph "External APIs"
@@ -50,7 +50,7 @@ graph TD
 
 ## 4. Agent Architecture (Detailed)
 
-### A. VIAGRA (Versatile Intelligent Gateway for Real-Estate AI Agents)
+### A. GATEWAY (Versatile Intelligent Gateway for Real-Estate AI Agents)
 The central hub of the system. It handles:
 - **Intent Classification**: Routing user queries to the correct agent.
 - **Language Detection**: Supporting Arabic, French, and English.

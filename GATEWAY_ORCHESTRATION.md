@@ -1,16 +1,16 @@
-# EstateMind — VIAGRA Orchestration Architecture
+# EstateMind — GATEWAY Orchestration Architecture
 
-> **VIAGRA** = **V**irtual **I**ntelligent **A**gent for **G**uided **R**eal-estate **A**dvisor  
-> Port: `8000` — Container: `immo-viagra` — Source: `viagra/main.py`
+> **GATEWAY** = **V**irtual **I**ntelligent **A**gent for **G**uided **R**eal-estate **A**dvisor  
+> Port: `8000` — Container: `immo-gateway` — Source: `gateway/main.py`
 
 ---
 
-## What is VIAGRA?
+## What is GATEWAY?
 
-VIAGRA is the **central orchestrator** of the EstateMind multi-agent AI platform.  
-Every user request — whether from the chat interface, the search bar, the listing detail page, or any of the specialized agent pages — flows through VIAGRA first.
+GATEWAY is the **central orchestrator** of the EstateMind multi-agent AI platform.  
+Every user request — whether from the chat interface, the search bar, the listing detail page, or any of the specialized agent pages — flows through GATEWAY first.
 
-VIAGRA's job is to:
+GATEWAY's job is to:
 1. **Understand** the user's intent and language
 2. **Dispatch** the request to the right combination of specialized agents (in parallel)
 3. **Cache** expensive results (prices, forecasts, legal responses) in Redis
@@ -29,7 +29,7 @@ Browser / Mobile
       
       
 
-                  VIAGRA Orchestrator (port 8000)         
+                  GATEWAY Orchestrator (port 8000)         
                                                          
   1. classify_intent(message)   intent label          
   2. detect_language(message)   ar | fr | en          
@@ -77,7 +77,7 @@ Browser / Mobile
 
 ### 2. Intent Classification (`classify_intent`)
 
-VIAGRA reads keyword patterns from the message and assigns one of these intents:
+GATEWAY reads keyword patterns from the message and assigns one of these intents:
 
 | Intent | Trigger Keywords | Agents Activated |
 |--------|-----------------|------------------|
@@ -94,7 +94,7 @@ The detected language (`ar`, `fr`, `en`) is passed to every agent and used for r
 
 ### 4. Parallel Agent Dispatch (`asyncio.gather`)
 
-VIAGRA calls all required agents **simultaneously** using `httpx.AsyncClient`:
+GATEWAY calls all required agents **simultaneously** using `httpx.AsyncClient`:
 
 ```python
 results = await asyncio.gather(
@@ -110,7 +110,7 @@ Failed agents return `None` and are skipped — the platform **never fails compl
 
 ### 5. Redis Caching
 
-Before calling expensive agents, VIAGRA checks Redis:
+Before calling expensive agents, GATEWAY checks Redis:
 
 ```
 Key pattern:  "{agent}:{hash(input_params)}"
@@ -125,7 +125,7 @@ Cache TTLs:
 
 ### 6. MongoDB Direct Access
 
-For listing search, VIAGRA queries MongoDB **directly** (bypassing the backend for speed):
+For listing search, GATEWAY queries MongoDB **directly** (bypassing the backend for speed):
 
 ```python
 db = motor.AsyncIOMotorClient(DATABASE_URL)["dcrawl"]
@@ -136,7 +136,7 @@ This avoids an extra HTTP hop for the most frequent operation.
 
 ### 7. Response Synthesis
 
-VIAGRA merges all agent responses into one structured object:
+GATEWAY merges all agent responses into one structured object:
 
 ```json
 {
@@ -189,7 +189,7 @@ POST /invoke
 
 ---
 
-## VIAGRA API Endpoints
+## GATEWAY API Endpoints
 
 | Method | Path | Description |
 |--------|------|-------------|
@@ -209,7 +209,7 @@ POST /invoke
 
 ## Villa 3D Agent — Separate Pipeline
 
-The Villa 3D agent (`villa3d`, port 8056) operates **independently** from VIAGRA — it is called directly by the frontend since its jobs are long-running (1–5 minutes) and do not fit the synchronous chat pattern.
+The Villa 3D agent (`villa3d`, port 8056) operates **independently** from GATEWAY — it is called directly by the frontend since its jobs are long-running (1–5 minutes) and do not fit the synchronous chat pattern.
 
 ### Pipeline A — SD+LoRA → Tripo3D (Terrain to 3D)
 
@@ -295,7 +295,7 @@ docker compose up -d
 
 # Check status
 docker compose ps
-docker compose logs -f viagra
+docker compose logs -f gateway
 ```
 
 ### Scale individual agents
@@ -308,7 +308,7 @@ docker compose up -d --scale price-predictor=3
 ### Health monitoring
 
 ```bash
-# VIAGRA reports all agent statuses
+# GATEWAY reports all agent statuses
 curl http://localhost:8000/health
 ```
 
@@ -330,7 +330,7 @@ docker compose up -d villa3d
 |----------|--------|
 | Parallel agent dispatch via `asyncio.gather` | Minimizes latency — all agents run simultaneously |
 | Redis caching with per-agent TTLs | Expensive ML/LLM calls are amortized across users |
-| MongoDB direct access in VIAGRA | Avoids an extra HTTP hop for the most common operation |
+| MongoDB direct access in GATEWAY | Avoids an extra HTTP hop for the most common operation |
 | Graceful degradation (exceptions=True) | Platform stays alive even if 3–4 agents are down |
 | Villa 3D as independent service | Long-running jobs (3–5 min) can't block the chat API |
 | Tripo3D v3.1-20260211 as default | Latest model with best geometry + PBR texture quality |

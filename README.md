@@ -95,7 +95,7 @@ EstateMind/
 │   ├── predict_investment.py # ROI scoring & pricing inference
 │   ├── rag_backend.py        # ChromaDB & Ollama interface
 │   └── run_pipeline.py       # End-to-end cleaning and training pipeline
-├── viagra/                   # FastAPI gateway router
+├── gateway/                  # FastAPI gateway router
 │   ├── main.py
 │   └── requirements.txt
 ├── docker-compose.yml        # Multi-container local orchestration
@@ -114,7 +114,7 @@ EstateMind/
 ### 1. Start AI Gateway & Services
 
 ```bash
-cd viagra
+cd gateway
 pip install -r requirements.txt
 uvicorn main.py --host 0.0.0.0 --port 8000 --reload
 ```

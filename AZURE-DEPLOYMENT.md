@@ -81,7 +81,7 @@ In Azure Portal → your VM → **Networking** → **Add inbound port rule** for
 | 80 | Nginx (full site) | 110 |
 | 3001 | Frontend direct | 120 |
 | 4000 | Backend API | 130 |
-| 8000 | VIAGRA AI | 140 |
+| 8000 | GATEWAY AI | 140 |
 | 8001-8010 | AI agents | 150 |
 | 8055 | Dhia agent | 160 |
 
@@ -201,7 +201,7 @@ docker compose -f docker-compose.azure.yml ps
 # Replace with your actual VM IP:
 VM_IP=20.86.123.45
 
-curl http://$VM_IP:8000/health          # VIAGRA: all agents ok
+curl http://$VM_IP:8000/health          # GATEWAY: all agents ok
 curl http://$VM_IP:4000/health          # Backend: Node.js ok
 curl http://$VM_IP:3001                 # Frontend: HTML response
 curl http://$VM_IP/health/legal         # Legal agent via nginx
@@ -226,7 +226,7 @@ docker compose -f docker-compose.azure.yml down
 git pull && docker compose -f docker-compose.azure.yml up -d --build
 
 # View logs for one service
-docker logs immo-viagra --tail=50 -f
+docker logs immo-gateway --tail=50 -f
 docker logs immo-backend --tail=50 -f
 docker logs immo-nour2-legal --tail=50 -f
 
@@ -243,7 +243,7 @@ docker system prune -f
 
 Your local setup is completely untouched:
 ```batch
-start-dev.bat        # starts Backend :4000, VIAGRA :8000, Villa3D :8056, Frontend :3000
+start-dev.bat        # starts Backend :4000, GATEWAY :8000, Villa3D :8056, Frontend :3000
 ```
 
 Local uses Ollama + full SD model.  

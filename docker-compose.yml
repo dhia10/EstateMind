@@ -297,13 +297,13 @@ services:
       timeout: 5s
       retries: 3
 
-  # ── VIAGRA orchestrator ───────────────────────────────────────────────────────
+  # ── GATEWAY orchestrator ───────────────────────────────────────────────────────
 
-  viagra:
+  gateway:
     build:
-      context: ./viagra
+      context: ./gateway
       dockerfile: Dockerfile
-    container_name: immo-viagra
+    container_name: immo-gateway
     restart: unless-stopped
     ports:
       - "8000:8000"
@@ -375,7 +375,7 @@ services:
       context: ./frontend
       dockerfile: Dockerfile
       args:
-        NEXT_PUBLIC_VIAGRA_URL: ${NEXT_PUBLIC_VIAGRA_URL:-http://localhost:8000}
+        NEXT_PUBLIC_gateway_URL: ${NEXT_PUBLIC_gateway_URL:-http://localhost:8000}
         NEXT_PUBLIC_BACKEND_URL: ${NEXT_PUBLIC_BACKEND_URL:-http://localhost:4000}
         NEXT_PUBLIC_VILLA3D_API_URL: ${NEXT_PUBLIC_VILLA3D_API_URL:-http://localhost:8056}
     container_name: immo-frontend
@@ -385,7 +385,7 @@ services:
     environment:
       NODE_ENV: production
     depends_on:
-      - viagra
+      - gateway
       - backend
       - villa3d
     networks:

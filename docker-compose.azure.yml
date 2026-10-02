@@ -266,13 +266,13 @@ services:
       timeout: 5s
       retries: 3
 
-  # ── VIAGRA Orchestrator ───────────────────────────────────────────────────────
+  # ── GATEWAY Orchestrator ───────────────────────────────────────────────────────
 
-  viagra:
+  gateway:
     build:
-      context: ./viagra
+      context: ./gateway
       dockerfile: Dockerfile
-    container_name: immo-viagra
+    container_name: immo-gateway
     restart: unless-stopped
     ports:
       - "8000:8000"
@@ -315,8 +315,8 @@ services:
       dockerfile: Dockerfile
       args:
         # Use explicit IP/domain — set in .env
-        NEXT_PUBLIC_VIAGRA_URL:        ${NEXT_PUBLIC_VIAGRA_URL}
-        NEXT_PUBLIC_ORCHESTRATOR_URL:  ${NEXT_PUBLIC_VIAGRA_URL}
+        NEXT_PUBLIC_gateway_URL:        ${NEXT_PUBLIC_gateway_URL}
+        NEXT_PUBLIC_ORCHESTRATOR_URL:  ${NEXT_PUBLIC_gateway_URL}
         NEXT_PUBLIC_BACKEND_URL:       ${NEXT_PUBLIC_BACKEND_URL}
         # Port 8056 direct — async stub handles CORS headers correctly
         NEXT_PUBLIC_VILLA3D_API_URL:   http://${SERVER_HOST}:8056
@@ -331,10 +331,10 @@ services:
       SCRAPED_DB_URI: ${SCRAPED_DB_URI}
       DATABASE_URL: ${MONGODB_URI}
       # Also pass PUBLIC vars at runtime for SSR
-      NEXT_PUBLIC_VIAGRA_URL: ${NEXT_PUBLIC_VIAGRA_URL}
+      NEXT_PUBLIC_gateway_URL: ${NEXT_PUBLIC_gateway_URL}
       NEXT_PUBLIC_BACKEND_URL: ${NEXT_PUBLIC_BACKEND_URL}
     depends_on:
-      - viagra
+      - gateway
       - backend
     networks:
       - immo-net
@@ -364,7 +364,7 @@ services:
   # Routes everything through port 80:
   #   /         → frontend  :3000
   #   /api/     → backend   :4000
-  #   /viagra/  → viagra    :8000
+  #   /gateway/  → gateway    :8000
   #   /agents/  → individual agents
 
   nginx:
@@ -378,6 +378,6 @@ services:
     depends_on:
       - frontend
       - backend
-      - viagra
+      - gateway
     networks:
       - immo-net

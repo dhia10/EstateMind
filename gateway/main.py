@@ -1,5 +1,5 @@
 """
-VIAGRA — Versatile Intelligent Gateway for Real-Estate AI Agents
+GATEWAY — Versatile Intelligent Gateway for Real-Estate AI Agents
 Unified orchestrator for the IMMO-AI platform (port 8000).
 """
 import asyncio, json, os, re, time
@@ -16,12 +16,12 @@ import uvicorn
 try:
     from dotenv import load_dotenv
     _here = os.path.dirname(os.path.abspath(__file__))
-    load_dotenv(os.path.join(_here, ".env"), override=False)          # viagra/.env (optional)
+    load_dotenv(os.path.join(_here, ".env"), override=False)          # gateway/.env (optional)
     load_dotenv(os.path.join(_here, "..", ".env"), override=False)    # project root .env
 except ImportError:
     pass
 
-app = FastAPI(title="VIAGRA — IMMO-AI Orchestrator", version="1.0.0")
+app = FastAPI(title="GATEWAY — IMMO-AI Orchestrator", version="1.0.0")
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -119,7 +119,7 @@ async def call_agent(client: httpx.AsyncClient, agent: str, payload: dict,
         resp.raise_for_status()
         return resp.json()
     except Exception as e:
-        print(f"[VIAGRA] Agent {agent} error: {e}")
+        print(f"[GATEWAY] Agent {agent} error: {e}")
         return None
 
 
@@ -1127,7 +1127,7 @@ async def dhia_invest(request: Request):
     if scorer_data:
         return scorer_data
 
-    # 3) Pure-local fallback — VIAGRA's own _quick_score (no external call)
+    # 3) Pure-local fallback — GATEWAY's own _quick_score (no external call)
     city  = body.get("city", "Tunis")
     price = float(body.get("price", body.get("budget", 300_000)))
     surf  = float(body.get("surface_m2", 100))

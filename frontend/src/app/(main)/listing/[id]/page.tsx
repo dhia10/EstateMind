@@ -133,7 +133,7 @@ function ListingContent() {
     setLoading(true)
     Promise.all([
       getListingById(id).catch(() => null),
-      getListingDetail(id, city, price, surface).catch(() => null),  // VIAGRA optional
+      getListingDetail(id, city, price, surface).catch(() => null),  // gateway optional
     ]).then(([mongoDoc, agents]) => {
       setListing(mongoDoc)
       setAgentData(agents)

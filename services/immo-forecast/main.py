@@ -1,12 +1,12 @@
 """
 IMMO-FORECAST — Agent IA de prévision immobilière tunisienne (port 8004).
 Endpoints:
-  POST /invoke                   → interface /invoke standard (pour VIAGRA)
+  POST /invoke                   → interface /invoke standard (pour GATEWAY)
   POST /api/analyze/vente        → analyse vente (prix/m²)
   POST /api/analyze/location     → analyse location (loyer mensuel)
   GET  /api/villes/{gov}         → villes + coordonnées
   GET  /api/zones                → gouvernorats, types, standings
-  GET  /forecast/{governorat}    → prévisions simple (legacy VIAGRA)
+  GET  /forecast/{governorat}    → prévisions simple (legacy GATEWAY)
   GET  /health
 """
 from fastapi import FastAPI, HTTPException
@@ -48,7 +48,7 @@ class InvokeRequest(BaseModel):
     input: dict
     context: dict = {}
 
-# ── /invoke (VIAGRA standard) ─────────────────────────────────────────────────
+# ── /invoke (GATEWAY standard) ─────────────────────────────────────────────────
 
 @app.post("/invoke")
 def invoke(req: InvokeRequest):
@@ -83,7 +83,7 @@ def invoke(req: InvokeRequest):
             services_proximite=inp.get("services_proximite", []),
         )
 
-    # Build legacy-compatible output for VIAGRA
+    # Build legacy-compatible output for GATEWAY
     h12 = result["horizons"]["12"]
     h24 = result["horizons"]["24"]
     series = [
@@ -171,7 +171,7 @@ def get_zones():
         "standings": STANDINGS,
     }
 
-# ── Legacy GET /forecast/{governorat} (VIAGRA proxy) ─────────────────────────
+# ── Legacy GET /forecast/{governorat} (GATEWAY proxy) ─────────────────────────
 
 @app.get("/forecast/{governorat}")
 def forecast_get(governorat: str, months: int = 12):

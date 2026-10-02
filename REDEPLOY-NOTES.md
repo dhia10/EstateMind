@@ -52,7 +52,7 @@ Then from your laptop: `curl -I http://158.158.44.182/` should also return 200.
 
 ```bash
 cd "C:\Users\yosri\Desktop\Estate Mind"
-git add viagra/main.py nginx.azure.conf frontend/src/app/\(main\)/predict/page.tsx REDEPLOY-NOTES.md
+git add gateway/main.py nginx.azure.conf frontend/src/app/\(main\)/predict/page.tsx REDEPLOY-NOTES.md
 git commit -m "feat(predict): detailed numeric breakdown, ROI charts, CSV export + nginx port-80 NSG note"
 git push origin <your-branch-name>
 ```
@@ -65,13 +65,13 @@ cd ~/EstateMind   # or wherever you cloned it
 git pull
 
 # Rebuild only the two services that changed (faster than full rebuild)
-docker-compose -f docker-compose.azure.yml build viagra frontend
-docker-compose -f docker-compose.azure.yml up -d viagra frontend nginx
+docker-compose -f docker-compose.azure.yml build gateway frontend
+docker-compose -f docker-compose.azure.yml up -d gateway frontend nginx
 
 # Verify
-docker logs immo-viagra   --tail 30
+docker logs immo-gateway   --tail 30
 docker logs immo-frontend --tail 30
-curl -s http://localhost/health/viagra
+curl -s http://localhost/health/gateway
 ```
 
 Then visit:
@@ -82,7 +82,7 @@ Then visit:
 
 ## 3. What changed in `/predict`
 
-### Backend (`viagra/main.py` — `/dhia/predict`)
+### Backend (`gateway/main.py` — `/dhia/predict`)
 The endpoint now returns a much richer payload:
 
 | Field | Description |
@@ -117,7 +117,7 @@ The investment-scoring panel and the market-scanner are **untouched** — they k
 ## 4. Files modified
 
 ```
-viagra/main.py                                   (+~75 lines)
+gateway/main.py                                   (+~75 lines)
 nginx.azure.conf                                 (+8 lines — NSG note)
 frontend/src/app/(main)/predict/page.tsx         (+~280 lines)
 REDEPLOY-NOTES.md                                (new — this file)

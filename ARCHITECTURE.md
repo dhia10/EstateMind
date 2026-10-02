@@ -16,7 +16,7 @@ EstateMind is a multi-agent AI platform for the Tunisian real-estate market. It 
                  HTTP  (NEXT_PUBLIC_ORCHESTRATOR_URL = :8000)
                
 
-              VIAGRA — FastAPI Orchestrator  (port 8000)                 
+              GATEWAY — FastAPI Orchestrator  (port 8000)                 
   • Intent classification (fr / ar / en)                                 
   • Agent fan-out (asyncio.gather)                                        
   • Redis cache (TTL: 1h price · 6h forecast · 12h legal · 24h geo)      
@@ -34,9 +34,9 @@ EstateMind is a multi-agent AI platform for the Tunisian real-estate market. It 
 
 ## Services
 
-### 1. VIAGRA — Orchestrator (`:8000`)
+### 1. GATEWAY — Orchestrator (`:8000`)
 **Tech:** FastAPI · httpx · motor (async MongoDB) · redis.asyncio  
-**File:** `viagra/main.py`
+**File:** `gateway/main.py`
 
 The central router. Every frontend call flows through here. Responsibilities:
 - **Intent detection** — regex + keyword classifier routes to the correct downstream agent(s)
@@ -98,7 +98,7 @@ verdict = "BUY" if score >= 70 else "HOLD" if score >= 50 else "AVOID"
 - Construction cost estimator for Tunisian market
 - Takes `surface_m2`, `city`, `project_type` → returns itemized devis (gros-oeuvre, second-oeuvre, finitions) in TND
 - Regional coefficients for 24 Tunisian governorats
-- `/invoke` adapter wraps the internal `/chat` endpoint for the VIAGRA contract
+- `/invoke` adapter wraps the internal `/chat` endpoint for the GATEWAY contract
 
 ---
 
@@ -210,7 +210,7 @@ Key pages:
 | Route | Purpose |
 |---|---|
 | `/` | Landing — market stats, hero |
-| `/search` | Conversational property search (VIAGRA `/chat`) |
+| `/search` | Conversational property search (GATEWAY `/chat`) |
 | `/predict` | Price prediction · Investment scoring · Opportunity scanner |
 | `/advisor` | AI real-estate advisor chat |
 | `/legal` | Legal RAG chatbot |
@@ -231,7 +231,7 @@ Key pages:
 User: city=Tunis, budget=300,000 TND
          
          
-VIAGRA /dhia/invest-scan
+GATEWAY /dhia/invest-scan
   → MongoDB query: price ∈ [180k, 420k], city~Tunis, limit 200
   → Filter: _is_valid_doc (removes scraper garbage)
   → _quick_score each listing:
@@ -253,7 +253,7 @@ Frontend: OpportunityCard grid + verdicts + Gemini summary
 User: city=Sousse, surface=120m², rooms=3
          
          
-VIAGRA /dhia/predict
+GATEWAY /dhia/predict
    Try dhia :8055 /invoke (intent=predict, timeout 8s)
       → ML model → Gemini markdown report
       → Returns { ml_price, report, model }
@@ -275,7 +275,7 @@ Frontend: MarkdownReport renders the Gemini/heuristic analysis
 User: "Quels sont les droits du locataire en Tunisie?"
          
          
-VIAGRA /legal/chat → nour2 :8003 /invoke
+GATEWAY /legal/chat → nour2 :8003 /invoke
   → FAISS retrieval: top-5 chunks from COC + Code Droits Réels
   → LLM (Ollama phi3:mini OR Gemini Flash fallback)
        prompt = system_prompt + retrieved_chunks + user_question
@@ -294,7 +294,7 @@ Frontend: Legal chat interface with source references
 |---|---|---|
 | Container runtime | Docker Compose | Single `docker-compose.yml` orchestrates all 13 services |
 | Network | bridge `immo-net` | All agents communicate via service name DNS |
-| Caching | Redis 7-alpine | Shared by VIAGRA; disabled gracefully if unreachable |
+| Caching | Redis 7-alpine | Shared by GATEWAY; disabled gracefully if unreachable |
 | Vector DB | FAISS (in-process) | Embedded in nour2; built once with `build_db.py` |
 | Relational DB | MySQL 8 | User accounts, subscriptions (backend) |
 | Document DB | MongoDB Atlas | Scraped listings (`dcrawl.listings`) — ~200k+ records |
@@ -323,7 +323,7 @@ POST /invoke
 }
 ```
 
-VIAGRA calls agents via `call_agent(client, agent_name, payload)` which resolves the URL from `AGENT_URLS` and POSTs to `/invoke`.
+GATEWAY calls agents via `call_agent(client, agent_name, payload)` which resolves the URL from `AGENT_URLS` and POSTs to `/invoke`.
 
 ---
 
@@ -348,7 +348,7 @@ cp .env.example .env
 docker compose up --build
 
 # 3. Or run locally (no Docker)
-cd viagra && python main.py                    # port 8000
+cd gateway && python main.py                    # port 8000
 cd travail\ finale && python api_service.py   # port 8056 (SD loads in background)
 cd frontend && npm run dev                     # port 3000
 

@@ -48,7 +48,7 @@
                          
                      
               
-                    VIAGRA Orchestrator :8000   
+                    GATEWAY Orchestrator :8000   
                 (AI request router / FastAPI)   
               
                                      
@@ -84,7 +84,7 @@ Recommender   Devis    Legal Forecast  Price/Invest  Lifestyle
 | Nginx | `immo-nginx` | **80** | http://158.158.44.182 | Entry point |
 | Frontend | `immo-frontend` | **3001** | http://158.158.44.182:3001 | Next.js |
 | Backend | `immo-backend` | **4000** | http://158.158.44.182:4000 | Node.js / Auth / Stripe |
-| VIAGRA AI | `immo-viagra` | **8000** | http://158.158.44.182:8000 | AI Orchestrator |
+| GATEWAY AI | `immo-gateway` | **8000** | http://158.158.44.182:8000 | AI Orchestrator |
 | Recommender | `immo-advisor-backend` | 8001 | http://158.158.44.182:8001 | Property advisor |
 | Devis | `immo-nour-devis` | 8002 | http://158.158.44.182:8002 | Cost estimator |
 | Legal | `immo-nour2-legal` | 8003 | http://158.158.44.182:8003 | Legal AI (Gemini) |
@@ -108,7 +108,7 @@ curl http://158.158.44.182:8000/health
 curl http://158.158.44.182:4000/health
 curl http://158.158.44.182:8056/health
 curl http://158.158.44.182/health/legal
-curl http://158.158.44.182/health/viagra
+curl http://158.158.44.182/health/gateway
 ```
 
 ---
@@ -129,7 +129,7 @@ start-dev.bat
 
 This starts:
 1. **Backend Node.js** → port 4000
-2. **VIAGRA Orchestrator** → port 8000
+2. **GATEWAY Orchestrator** → port 8000
 3. **Villa3D (SD+LoRA)** → port 8056
 4. **Frontend Next.js** → port 3000
 
@@ -276,8 +276,8 @@ server {
         proxy_read_timeout 300s;
     }
 
-    location /viagra/ {
-        proxy_pass http://immo-viagra:8000/;
+    location /gateway/ {
+        proxy_pass http://immo-gateway:8000/;
         proxy_read_timeout 300s;
     }
 }
@@ -305,7 +305,7 @@ nano ~/estatemind/.env
 
 # Change these 3 lines:
 SERVER_HOST=yourdomain.com
-NEXT_PUBLIC_VIAGRA_URL=https://yourdomain.com:8000
+NEXT_PUBLIC_gateway_URL=https://yourdomain.com:8000
 NEXT_PUBLIC_BACKEND_URL=https://yourdomain.com:4000
 
 # Rebuild frontend with new domain baked in:
@@ -331,7 +331,7 @@ sudo docker compose -f docker-compose.azure.yml up -d
 sudo docker compose -f ~/estatemind/docker-compose.azure.yml logs -f
 
 # One service:
-sudo docker logs immo-viagra --tail=50 -f
+sudo docker logs immo-gateway --tail=50 -f
 sudo docker logs immo-frontend --tail=50 -f
 sudo docker logs immo-backend --tail=50 -f
 sudo docker logs immo-nour2-legal --tail=50 -f
@@ -339,7 +339,7 @@ sudo docker logs immo-nour2-legal --tail=50 -f
 
 ### Restart one service
 ```bash
-sudo docker compose -f ~/estatemind/docker-compose.azure.yml restart viagra
+sudo docker compose -f ~/estatemind/docker-compose.azure.yml restart gateway
 sudo docker compose -f ~/estatemind/docker-compose.azure.yml restart frontend
 ```
 
@@ -386,7 +386,7 @@ The stub is running but SD image generation is disabled in cloud. 3D conversion 
 ### AI agents not responding
 ```bash
 # Check all agent health:
-sudo docker exec immo-nginx wget -qO- http://immo-viagra:8000/health
+sudo docker exec immo-nginx wget -qO- http://immo-gateway:8000/health
 
 # Restart all agents:
 sudo docker compose -f ~/estatemind/docker-compose.azure.yml restart
@@ -436,7 +436,7 @@ MONGODB_URI=mongodb+srv://...       # https://cloud.mongodb.com/
 SCRAPED_DB_URI=mongodb+srv://...
 
 #  Frontend (baked at build time) 
-NEXT_PUBLIC_VIAGRA_URL=http://158.158.44.182:8000
+NEXT_PUBLIC_gateway_URL=http://158.158.44.182:8000
 NEXT_PUBLIC_BACKEND_URL=http://158.158.44.182:4000
 NEXT_PUBLIC_VILLA3D_API_URL=http://158.158.44.182:8056
 

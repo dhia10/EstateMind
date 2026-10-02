@@ -11,9 +11,9 @@ REM ── Backend Node.js (port 4000) — Auth, Listings, Stripe ────�
 echo [1/4] Demarrage Backend Node.js (port 4000)...
 start "Backend :4000" /min cmd /k "cd /d "%~dp0backend" && node src/server.js"
 
-REM ── VIAGRA Orchestrator (port 8000) ──────────────────────────
-echo [2/4] Demarrage VIAGRA Orchestrator (port 8000)...
-start "VIAGRA :8000" /min cmd /k "cd /d "%~dp0viagra" && python main.py"
+REM ── GATEWAY Orchestrator (port 8000) ──────────────────────────
+echo [2/4] Demarrage GATEWAY Orchestrator (port 8000)...
+start "GATEWAY :8000" /min cmd /k "cd /d "%~dp0gateway" && python main.py"
 
 REM ── Villa3D API (port 8056) ───────────────────────────────────
 echo [3/4] Demarrage Villa 3D API (port 8056)...
@@ -30,7 +30,7 @@ echo   Tous les services sont demarres en arriere-plan.
 echo   Ouvrez http://localhost:3000 dans votre navigateur.
 echo.
 echo   Fenetres actives (barre des taches):
-echo     Backend :4000   VIAGRA :8000   Villa3D :8056   Frontend :3000
+echo     Backend :4000   GATEWAY :8000   Villa3D :8056   Frontend :3000
 echo ============================================================
 echo.
 timeout /t 10 /nobreak >nul
