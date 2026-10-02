@@ -23,23 +23,23 @@ VIAGRA's job is to:
 
 ```
 Browser / Mobile
-      │
-      ▼
+      
+      
   Next.js Frontend (port 3001)
-      │
-      ▼
-┌─────────────────────────────────────────────────────────┐
-│                  VIAGRA Orchestrator (port 8000)         │
-│                                                         │
-│  1. classify_intent(message)  ──► intent label          │
-│  2. detect_language(message)  ──► ar | fr | en          │
-│  3. Parallel agent dispatch   ──► asyncio.gather(...)   │
-│  4. Redis cache lookup/write  ──► 1h-24h TTL            │
-│  5. MongoDB direct query      ──► listings collection   │
-│  6. Response synthesis        ──► unified JSON          │
-└─────────────────────────────────────────────────────────┘
-      │                    │                │
-      ▼                    ▼                ▼
+      
+      
+
+                  VIAGRA Orchestrator (port 8000)         
+                                                         
+  1. classify_intent(message)   intent label          
+  2. detect_language(message)   ar | fr | en          
+  3. Parallel agent dispatch    asyncio.gather(...)   
+  4. Redis cache lookup/write   1h-24h TTL            
+  5. MongoDB direct query       listings collection   
+  6. Response synthesis         unified JSON          
+
+                                          
+                                          
   Agent Services        Redis (cache)   MongoDB Atlas
   (ports 8001–8056)    (port 6379)     (dcrawl.listings)
 ```
@@ -215,27 +215,27 @@ The Villa 3D agent (`villa3d`, port 8056) operates **independently** from VIAGRA
 
 ```
 User uploads terrain image + optional prompt
-          │
-          ▼
+          
+          
 POST /generate2d (villa3d:8056)
-          │
-          ▼
+          
+          
 Stable Diffusion v1.5 + LoRA fine-tuned weights
 (lora-villa/pytorch_lora_weights.safetensors)
      strength=0.78, steps=40, guidance=7.5
-          │
-          ▼ Villa 2D rendered image (512→1024px)
-          │
+          
+           Villa 2D rendered image (512→1024px)
+          
 POST /convert3d (villa3d:8056)
-          │
-          ▼
+          
+          
 Tripo3D API — image_to_model
      model: v3.1-20260211
      texture: true, pbr: true
      texture_quality: detailed
      face_limit: 200 000
-          │
-          ▼
+          
+          
 GLB file (base64) → model-viewer renders in browser
 ```
 
@@ -243,7 +243,7 @@ GLB file (base64) → model-viewer renders in browser
 
 ```
 User uploads building photo
-          │
+          
 POST /convert3d-direct → Tripo3D image_to_model → GLB
 ```
 
@@ -251,11 +251,11 @@ POST /convert3d-direct → Tripo3D image_to_model → GLB
 
 ```
 User uploads building photo
-          │
+          
 POST /convert3d-multiview
-          │
+          
 Tripo3D generate_multiview_image (4 angles)
-          │
+          
 Tripo3D multiview_to_model → best geometry GLB
 ```
 
@@ -263,7 +263,7 @@ Tripo3D multiview_to_model → best geometry GLB
 
 ```
 User types description
-          │
+          
 POST /generate3d-text → Tripo3D text_to_model → GLB
 ```
 

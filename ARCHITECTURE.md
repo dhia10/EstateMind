@@ -9,22 +9,22 @@ EstateMind is a multi-agent AI platform for the Tunisian real-estate market. It 
 ## System Architecture Diagram
 
 ```
-┌─────────────────────────────────────────────────────────────────────────┐
-│                         CLIENT — Next.js 14                             │
-│  /search  /predict  /advisor  /legal  /devis  /forecast  /villa3d       │
-└──────────────┬──────────────────────────────────────────────────────────┘
-               │  HTTP  (NEXT_PUBLIC_ORCHESTRATOR_URL = :8000)
-               ▼
-┌─────────────────────────────────────────────────────────────────────────┐
-│              VIAGRA — FastAPI Orchestrator  (port 8000)                 │
-│  • Intent classification (fr / ar / en)                                 │
-│  • Agent fan-out (asyncio.gather)                                        │
-│  • Redis cache (TTL: 1h price · 6h forecast · 12h legal · 24h geo)      │
-│  • Direct MongoDB Atlas access for /listings & /dhia/invest-scan         │
-│  • Gemini 2.0 Flash-Lite for market summaries                            │
-└──┬───┬──────┬──────┬──────┬──────┬──────┬──────┬───────────────────────┘
-   │   │      │      │      │      │      │      │
-   ▼   ▼      ▼      ▼      ▼      ▼      ▼      ▼
+
+                         CLIENT — Next.js 14                             
+  /search  /predict  /advisor  /legal  /devis  /forecast  /villa3d       
+
+                 HTTP  (NEXT_PUBLIC_ORCHESTRATOR_URL = :8000)
+               
+
+              VIAGRA — FastAPI Orchestrator  (port 8000)                 
+  • Intent classification (fr / ar / en)                                 
+  • Agent fan-out (asyncio.gather)                                        
+  • Redis cache (TTL: 1h price · 6h forecast · 12h legal · 24h geo)      
+  • Direct MongoDB Atlas access for /listings & /dhia/invest-scan         
+  • Gemini 2.0 Flash-Lite for market summaries                            
+
+                                          
+                                          
  :8055 :8001  :8002  :8003  :8004  :8005  :8006  :8007  :8010
  dhia  advis  nour   nour2  fore   price  invest geo    life
        or     devis  legal  cast   pred   scorer adv    style
@@ -229,8 +229,8 @@ Key pages:
 
 ```
 User: city=Tunis, budget=300,000 TND
-         │
-         ▼
+         
+         
 VIAGRA /dhia/invest-scan
   → MongoDB query: price ∈ [180k, 420k], city~Tunis, limit 200
   → Filter: _is_valid_doc (removes scraper garbage)
@@ -240,8 +240,8 @@ VIAGRA /dhia/invest-scan
   → Sort: BUY first, then score desc
   → Top-20 returned
   → Gemini Flash-Lite: 3-sentence market synthesis
-         │
-         ▼
+         
+         
 Frontend: OpportunityCard grid + verdicts + Gemini summary
 ```
 
@@ -251,19 +251,19 @@ Frontend: OpportunityCard grid + verdicts + Gemini summary
 
 ```
 User: city=Sousse, surface=120m², rooms=3
-         │
-         ▼
+         
+         
 VIAGRA /dhia/predict
-  ├─ Try dhia :8055 /invoke (intent=predict, timeout 8s)
-  │    → ML model → Gemini markdown report
-  │    → Returns { ml_price, report, model }
-  │
-  └─ Fallback: price-predictor :8005 /invoke
+   Try dhia :8055 /invoke (intent=predict, timeout 8s)
+      → ML model → Gemini markdown report
+      → Returns { ml_price, report, model }
+  
+   Fallback: price-predictor :8005 /invoke
        → price = BASE_M2 * city_mult * room_bonus * surface
        → Formats markdown report locally
        → Returns same shape
-         │
-         ▼
+         
+         
 Frontend: MarkdownReport renders the Gemini/heuristic analysis
 ```
 
@@ -273,16 +273,16 @@ Frontend: MarkdownReport renders the Gemini/heuristic analysis
 
 ```
 User: "Quels sont les droits du locataire en Tunisie?"
-         │
-         ▼
+         
+         
 VIAGRA /legal/chat → nour2 :8003 /invoke
   → FAISS retrieval: top-5 chunks from COC + Code Droits Réels
   → LLM (Ollama phi3:mini OR Gemini Flash fallback)
        prompt = system_prompt + retrieved_chunks + user_question
   → Structured answer with legal citations
   → 12h Redis cache
-         │
-         ▼
+         
+         
 Frontend: Legal chat interface with source references
 ```
 

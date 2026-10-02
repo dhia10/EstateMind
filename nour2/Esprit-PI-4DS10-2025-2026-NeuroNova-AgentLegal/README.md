@@ -1,44 +1,44 @@
-# ⚖️ Legal Agent API — Backend FastAPI v2
+#  Legal Agent API — Backend FastAPI v2
 
 Assistant juridique immobilier tunisien : COC, Droits Réels, Urbanisme, Fiscalité 2025.
 
 ---
 
-## 📁 Structure du projet
+##  Structure du projet
 
 ```
 legal_agent_api/
-├── app/
-│   ├── main.py                        # FastAPI — point d'entrée
-│   ├── api/routes/
-│   │   ├── chat.py                    # POST /chat
-│   │   ├── sessions.py                # GET/DELETE /sessions
-│   │   └── admin.py                   # /admin/reload-db, /admin/clear-cache
-│   ├── core/
-│   │   ├── config.py                  # Paramètres globaux
-│   │   ├── language.py                # detect_language() + detect_question_type()
-│   │   └── prompts.py                 # build_prompt() FR / AR
-│   ├── services/
-│   │   ├── rag.py                     #  Orchestrateur principal
-│   │   ├── hardcoded.py               # Règles juridiques hardcodées
-│   │   ├── calculator.py              # TVA, droits, mensualité, rendement
-│   │   ├── vector_store.py            # Singleton FAISS + scoring
-│   │   ├── llm.py                     # OllamaLLM + clean_response()
-│   │   ├── cache.py                   # Cache JSON (similarité Jaccard)
-│   │   └── memory.py                  # Sessions conversationnelles JSON
-│   └── models/
-│       ├── request.py                 # ChatRequest (Pydantic)
-│       └── response.py                # ChatResponse, MetricItem, etc.
-├── data/                              # Fichiers TXT/PDF à indexer
-├── tests/
-│   └── Legal_Agent_API.postman_collection.json
-├── build_db.py
-└── requirements.txt
+ app/
+    main.py                        # FastAPI — point d'entrée
+    api/routes/
+       chat.py                    # POST /chat
+       sessions.py                # GET/DELETE /sessions
+       admin.py                   # /admin/reload-db, /admin/clear-cache
+    core/
+       config.py                  # Paramètres globaux
+       language.py                # detect_language() + detect_question_type()
+       prompts.py                 # build_prompt() FR / AR
+    services/
+       rag.py                     #  Orchestrateur principal
+       hardcoded.py               # Règles juridiques hardcodées
+       calculator.py              # TVA, droits, mensualité, rendement
+       vector_store.py            # Singleton FAISS + scoring
+       llm.py                     # OllamaLLM + clean_response()
+       cache.py                   # Cache JSON (similarité Jaccard)
+       memory.py                  # Sessions conversationnelles JSON
+    models/
+        request.py                 # ChatRequest (Pydantic)
+        response.py                # ChatResponse, MetricItem, etc.
+ data/                              # Fichiers TXT/PDF à indexer
+ tests/
+    Legal_Agent_API.postman_collection.json
+ build_db.py
+ requirements.txt
 ```
 
 ---
 
-## 🚀 Installation
+##  Installation
 
 ```bash
 # 1. Installer les dépendances
@@ -58,7 +58,7 @@ Swagger UI : http://localhost:8000/docs
 
 ---
 
-## 📡 Endpoints
+##  Endpoints
 
 | Méthode | URL | Description |
 |---------|-----|-------------|
@@ -73,7 +73,7 @@ Swagger UI : http://localhost:8000/docs
 
 ---
 
-## 🔄 Flux de traitement
+##  Flux de traitement
 
 ```
 Question → chitchat? → réponse immédiate (0 LLM)
@@ -84,7 +84,7 @@ Question → chitchat? → réponse immédiate (0 LLM)
 
 ---
 
-## 🧪 Postman
+##  Postman
 
 Import : `tests/Legal_Agent_API.postman_collection.json`
 Variable `base_url` = `http://localhost:8000`

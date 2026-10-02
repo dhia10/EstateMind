@@ -24,42 +24,42 @@
 
 ```
                          INTERNET
-                             │
-                    ┌────────▼────────┐
-                    │   Azure VM      │
-                    │  Spain Central  │
-                    │ 158.158.44.182  │
-                    └────────┬────────┘
-                             │
-                    ┌────────▼────────┐
-                    │  Nginx :80      │ ← Entry point
-                    │  (reverse proxy)│
-                    └────┬───────┬───┘
-                         │       │
-              ┌──────────▼─┐   ┌─▼──────────────┐
-              │ Frontend   │   │  Backend API    │
-              │ Next.js    │   │  Node.js        │
-              │ :3001      │   │  :4000          │
-              └──────┬─────┘   └─┬───────────────┘
-                     │           │
-                     │    ┌──────▼──────────────┐
-                     │    │   MongoDB Atlas      │
-                     │    │   (cloud, shared)    │
-                     │    └─────────────────────┘
-                     │
-              ┌──────▼──────────────────────────┐
-              │      VIAGRA Orchestrator :8000   │
-              │  (AI request router / FastAPI)   │
-              └──┬────┬────┬────┬────┬────┬─────┘
-                 │    │    │    │    │    │
-    ┌────────────┘    │    │    │    │    └────────────┐
-    │            ┌────┘    │    │    └────┐            │
-    ▼            ▼         ▼    ▼         ▼            ▼
+                             
+                    
+                       Azure VM      
+                      Spain Central  
+                     158.158.44.182  
+                    
+                             
+                    
+                      Nginx :80       ← Entry point
+                      (reverse proxy)
+                    
+                                
+                 
+               Frontend        Backend API    
+               Next.js         Node.js        
+               :3001           :4000          
+                 
+                                
+                         
+                            MongoDB Atlas      
+                            (cloud, shared)    
+                         
+                     
+              
+                    VIAGRA Orchestrator :8000   
+                (AI request router / FastAPI)   
+              
+                                     
+                        
+                                        
+                                                  
  :8001        :8002     :8003 :8004    :8005-8007   :8010
 Recommender   Devis    Legal Forecast  Price/Invest  Lifestyle
   Agent       Agent    Agent  Agent    /Geo Agents    Agent
-    │            │        │
-    └────────────┴────────┴──── all use: Gemini API (cloud)
+                        
+     all use: Gemini API (cloud)
                                          MongoDB Atlas
 ```
 
@@ -367,10 +367,10 @@ sudo docker compose -f docker-compose.azure.yml up -d --build
 ## 7. Troubleshooting
 
 ### Error: 401 on `/auth/me`
-✅ **Normal** — the browser checks if a user is logged in on every page load. When no user is logged in, 401 is the correct response. Once you log in, it disappears.
+ **Normal** — the browser checks if a user is logged in on every page load. When no user is logged in, 401 is the correct response. Once you log in, it disappears.
 
 ### Error: `A listener indicated an asynchronous response...`
-✅ **Normal** — this comes from a browser extension (ad blocker, React DevTools), not your code. Ignore it.
+ **Normal** — this comes from a browser extension (ad blocker, React DevTools), not your code. Ignore it.
 
 ### Error: 500 on `/api/listings`
 Check that the frontend container has MongoDB env vars:
@@ -423,37 +423,37 @@ curl -s "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flas
 ### Required on Azure VM (`~/estatemind/.env`)
 
 ```env
-# ── VM Settings ───────────────────────────────────────────────
+#  VM Settings 
 SERVER_HOST=158.158.44.182          # or your domain name
 
-# ── AI APIs ───────────────────────────────────────────────────
+#  AI APIs 
 GEMINI_API_KEY=                     # Google AI Studio: https://aistudio.google.com/app/apikey
 SERPAPI_KEY=                        # https://serpapi.com/
 TRIPO_API_KEY=                      # https://platform.tripo3d.ai/
 
-# ── MongoDB Atlas ─────────────────────────────────────────────
+#  MongoDB Atlas 
 MONGODB_URI=mongodb+srv://...       # https://cloud.mongodb.com/
 SCRAPED_DB_URI=mongodb+srv://...
 
-# ── Frontend (baked at build time) ────────────────────────────
+#  Frontend (baked at build time) 
 NEXT_PUBLIC_VIAGRA_URL=http://158.158.44.182:8000
 NEXT_PUBLIC_BACKEND_URL=http://158.158.44.182:4000
 NEXT_PUBLIC_VILLA3D_API_URL=http://158.158.44.182:8056
 
-# ── Backend Auth ──────────────────────────────────────────────
+#  Backend Auth 
 JWT_SECRET=
 JWT_REFRESH_SECRET=
 
-# ── Email (Gmail App Password) ────────────────────────────────
+#  Email (Gmail App Password) 
 SMTP_USER=                          # Your Gmail
 SMTP_PASS=                          # https://myaccount.google.com/apppasswords
 
-# ── Stripe ────────────────────────────────────────────────────
+#  Stripe 
 STRIPE_SECRET_KEY=                  # https://dashboard.stripe.com/test/apikeys
 STRIPE_PUBLISHABLE_KEY=
 STRIPE_WEBHOOK_SECRET=
 
-# ── Twilio WhatsApp ───────────────────────────────────────────
+#  Twilio WhatsApp 
 TWILIO_ACCOUNT_SID=                 # https://console.twilio.com/
 TWILIO_AUTH_TOKEN=
 TWILIO_WHATSAPP_FROM=whatsapp:+14155238886

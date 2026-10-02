@@ -4,7 +4,7 @@
 
 | Environment | Command | Works today |
 |-------------|---------|-------------|
-| **Local** | `start-dev.bat` | ✅ All services on localhost |
+| **Local** | `start-dev.bat` |  All services on localhost |
 | **Azure** | `docker-compose -f docker-compose.azure.yml up -d` | After this guide ↓ |
 
 ---
@@ -40,8 +40,8 @@
    - **Username**: `azureuser`
 4. Click **"Next: Disks"** → keep default (Premium SSD, 64GB)
 5. Click **"Next: Networking"** → under **"Public inbound ports"** select **"Allow selected ports"**:
-   - ✅ SSH (22)
-   - ✅ HTTP (80)
+   -  SSH (22)
+   -  HTTP (80)
 6. Click **"Review + Create"** → **"Create"**
 
 Wait ~2 minutes for deployment to complete.

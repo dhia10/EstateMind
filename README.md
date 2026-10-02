@@ -1,11 +1,5 @@
-# 🏢 EstateMind — Plateforme d'Intelligence & Analyse Immobilière Tunisienne
-### Multi-Agent Orchestration • Dual-Valuation RAG • Price Prediction • OSM Geospatial Scoring • Next.js 14 & Power BI
-
-[![ESPRIT](https://img.shields.io/badge/Academic%20Project-ESPRIT%20PI%204DS10-red.svg)]()
-[![Stack](https://img.shields.io/badge/Stack-Python%203.11%20%7C%20FastAPI%20%7C%20Next.js%2014-blue.svg)]()
-[![Databases](https://img.shields.io/badge/Databases-PostgreSQL%20%7C%20MongoDB%20%7C%20SQLite-green.svg)]()
-[![AI/ML](https://img.shields.io/badge/AI%2FML-XGBoost%20%7C%20scikit--learn%20%7C%20LangChain%20%7C%20Ollama-orange.svg)]()
-[![DevOps](https://img.shields.io/badge/DevOps-Docker%20Compose%20%7C%20Azure%20VM%20%7C%20Nginx-purple.svg)]()
+# EstateMind — Plateforme d'Intelligence et d'Analyse Décisionnelle Immobilière
+### Architecture Micro-services • Modélisation Prédictive • RAG Spécialisé • Traitement Géospatial OSM • Next.js 14 & Power BI
 
 > **Projet Intégré (PI) — 4<sup>e</sup> Année Data Science (4DS10) | ESPRIT School of Engineering (Année 2025–2026)**  
 > **Conception & Architecture Data/IA :** Dhia Romdhane (*Lead Data & AI Architecture*) en collaboration avec l'équipe sprint NeuroNova.
@@ -104,34 +98,34 @@ flowchart TD
 
 ```plaintext
 EstateMind/
-├── backend/                      # API Backend & services de persistance
-│   ├── src/                      # Contrôleurs, routes, connecteurs bases de données
-│   └── Dockerfile
-├── frontend/                     # Application web Next.js 14
-│   ├── src/app/                  # Pages : /predict, /map, /legal, /advisor, /listings
-│   ├── public/                   # Assets graphiques, modèles 3D
-│   └── package.json
-├── viagra/                       # VIAGRA Orchestrator (FastAPI central)
-│   ├── main.py                   # Point d'entrée de routage des micro-services IA
-│   └── requirements.txt
-├── dhia/                         # Modules Data Science & Pricing (Dhia Romdhane)
-│   ├── academic_evaluation.py    # Suite de métriques de validation académique
-│   ├── predict_investment.py     # Moteur de scoring ROI et valorisation
-│   ├── rag_backend.py            # Moteur RAG & connecteurs vectoriels
-│   ├── Property-Prices-in-Tunisia.csv # Dataset nettoyé et fiabilisé
-│   └── run_pipeline.py           # Pipeline ETL de nettoyage et d'inférence
-├── services/                     # Micro-services conteneurisés additionnels
-├── docker-compose.yml            # Déploiement multi-conteneurs local
-├── docker-compose.azure.yml      # Déploiement optimisé pour machine virtuelle Azure
-├── nginx.azure.conf              # Configuration Reverse Proxy Nginx & SSL
-├── start-dev.bat                 # Script de démarrage rapide sous Windows
-│
-├── README.md                     # Documentation générale (ce document)
-├── ARCHITECTURE.md               # Spécifications d'architecture système détaillées
-├── TECHNICAL_ARCHITECTURE.md     # Architecture technique des flux et protocoles
-├── VIAGRA_ORCHESTRATION.md       # Spécification du moteur d'orchestration
-├── ESTATEMIND-FULL-GUIDE.md      # Guide opérationnel complet de déploiement
-└── AZURE-DEPLOYMENT.md           # Procédure de mise en production Cloud Azure
+ backend/                      # API Backend & services de persistance
+    src/                      # Contrôleurs, routes, connecteurs bases de données
+    Dockerfile
+ frontend/                     # Application web Next.js 14
+    src/app/                  # Pages : /predict, /map, /legal, /advisor, /listings
+    public/                   # Assets graphiques, modèles 3D
+    package.json
+ viagra/                       # VIAGRA Orchestrator (FastAPI central)
+    main.py                   # Point d'entrée de routage des micro-services IA
+    requirements.txt
+ dhia/                         # Modules Data Science & Pricing (Dhia Romdhane)
+    academic_evaluation.py    # Suite de métriques de validation académique
+    predict_investment.py     # Moteur de scoring ROI et valorisation
+    rag_backend.py            # Moteur RAG & connecteurs vectoriels
+    Property-Prices-in-Tunisia.csv # Dataset nettoyé et fiabilisé
+    run_pipeline.py           # Pipeline ETL de nettoyage et d'inférence
+ services/                     # Micro-services conteneurisés additionnels
+ docker-compose.yml            # Déploiement multi-conteneurs local
+ docker-compose.azure.yml      # Déploiement optimisé pour machine virtuelle Azure
+ nginx.azure.conf              # Configuration Reverse Proxy Nginx & SSL
+ start-dev.bat                 # Script de démarrage rapide sous Windows
+
+ README.md                     # Documentation générale (ce document)
+ ARCHITECTURE.md               # Spécifications d'architecture système détaillées
+ TECHNICAL_ARCHITECTURE.md     # Architecture technique des flux et protocoles
+ VIAGRA_ORCHESTRATION.md       # Spécification du moteur d'orchestration
+ ESTATEMIND-FULL-GUIDE.md      # Guide opérationnel complet de déploiement
+ AZURE-DEPLOYMENT.md           # Procédure de mise en production Cloud Azure
 ```
 
 ---

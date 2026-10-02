@@ -61,7 +61,7 @@ python run_pipeline.py
 ### Price Prediction Testing
 Tests the currently trained predictive model by estimating the price of a simulated property.
 ```powershell
-### 🌟 Modern Vitrine (FastAPI + HTML Showcase)
+###  Modern Vitrine (FastAPI + HTML Showcase)
 Launch the stunning, glassmorphism-styled web showcase to test the agents directly in the browser with explicative reports.
 1. Start the API backend:
 ```powershell
