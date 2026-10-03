@@ -135,7 +135,7 @@ Open `http://localhost:3000` in your browser.
 
 Project built by the **NeuroNova** team during the 4DS10 Integrated Project at **ESPRIT School of Engineering**:
 
-- **Dhia Romdhane** — *Lead Data & AI Architecture, Pricing Engine, RAG & Data Quality* ([GitHub](https://github.com/dhia10) • [LinkedIn](https://www.linkedin.com/in/dhia-romdhane-ds/))
+- **Dhia Romdhane** — *Lead Data & AI Architecture, Pricing Engine, RAG & Data Quality* ([GitHub](https://github.com/dhia10))
 - **Nour Rajhi** — *Scraping Infrastructure & Legal Agent Lead*
 - **Yosri Awedi** — *Frontend Coordination & AI Integration*
 - **Oumaima Nacef** — *Market Analytics & Data Modeling*
